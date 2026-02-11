@@ -1,3 +1,0 @@
-Specific Squad ID: 44
-Null Squad ID (Legacy): 452
-Total visible: 496
