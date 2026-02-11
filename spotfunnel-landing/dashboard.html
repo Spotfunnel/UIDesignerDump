@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | SpotFunnel</title>
+
+    <!-- Fonts: Roobert + Inter + Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+
+    <style>
+        @font-face {
+            font-family: 'Roobert';
+            src: url('fonts/RoobertTRIALVF-BF67243fd545701.ttf') format('truetype');
+            font-weight: 100 900;
+            font-style: normal;
+        }
+
+        :root {
+            --bg-base: #05070a;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.6);
+            --accent-blue: #00D1FF;
+            --success-green: #10b981;
+            --beam-glow: rgba(0, 209, 255, 0.15);
+            --grid-color: rgba(0, 209, 255, 0.05);
+            --border-color: rgba(0, 209, 255, 0.1);
+            --font-sans: 'Roobert', 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+            --ease-custom: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-size: 17px;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            letter-spacing: -0.01em;
+        }
+
+        /* Immersive Background */
+        .immersive-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 30%, #0c1a2e 0%, #05070a 60%);
+        }
+
+        .immersive-bg::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1200px;
+            height: 140%;
+            background:
+                radial-gradient(circle at 50% 0%, rgba(0, 209, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 50% 100%, rgba(0, 209, 255, 0.03) 0%, transparent 60%);
+            filter: blur(100px);
+            opacity: 1;
+            pointer-events: none;
+        }
+
+        /* Grid Overlay */
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 2;
+            pointer-events: none;
+            background-image:
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 60px 60px;
+            opacity: 0.4;
+        }
+
+        /* Content Layer */
+        .content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 48px 24px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 48px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        nav {
+            display: flex;
+            gap: 24px;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        nav::-webkit-scrollbar {
+            display: none;
+        }
+
+        nav a {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s var(--ease-custom);
+        }
+
+        nav a:hover {
+            color: var(--text-primary);
+        }
+
+        nav a.active {
+            color: var(--accent-blue);
+            font-weight: 500;
+        }
+
+        h1 {
+            font-size: clamp(28px, 4vw, 40px);
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .status-message {
+            font-size: 16px;
+            color: var(--success-green);
+            margin-bottom: 48px;
+        }
+
+        .section {
+            margin-bottom: 48px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 48px 24px;
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        .attention-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .attention-item:last-child {
+            border-bottom: none;
+        }
+
+        .attention-content {
+            flex: 1;
+        }
+
+        .attention-title {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .attention-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .attention-action {
+            margin-left: 16px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            background: var(--accent-blue);
+            color: var(--bg-base);
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s var(--ease-custom);
+            white-space: nowrap;
+            font-family: var(--font-sans);
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(0, 209, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Modal Styling */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal {
+            background: #0f172a;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 32px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 24px;
+        }
+
+        .modal h2 {
+            margin-bottom: 24px;
+            font-size: 24px;
+        }
+
+        .modal-section {
+            margin-bottom: 24px;
+        }
+
+        .modal-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-blue);
+            margin-bottom: 8px;
+        }
+
+        .modal-content {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 16px;
+            border-radius: 8px;
+        }
+
+        /* Bulk Actions */
+        .bulk-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            display: none;
+            /* Shown only when items selected */
+        }
+
+        /* Checkbox Styling */
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            padding-right: 12px;
+        }
+
+        input[type="checkbox"] {
+            accent-color: var(--accent-blue);
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        /* Table Row Hover */
+        .history-row {
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .history-row:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Label Tags */
+        .tag-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .tag {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tag-blue {
+            background: rgba(0, 209, 255, 0.1);
+            color: #00D1FF;
+            border-color: rgba(0, 209, 255, 0.2);
+        }
+
+        .tag-green {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border-color: rgba(16, 185, 129, 0.2);
+        }
+
+        .tag-orange {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+            border-color: rgba(245, 158, 11, 0.2);
+        }
+
+        .tag-purple {
+            background: rgba(139, 92, 246, 0.1);
+            color: #8b5cf6;
+            border-color: rgba(139, 92, 246, 0.2);
+        }
+
+        /* Audio Player Styling */
+        .audio-player {
+            width: 100%;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+
+        .audio-player audio {
+            width: 100%;
+            height: 100%;
+        }
+
+        .metadata-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .metadata-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 12px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .metadata-label {
+            font-size: 10px;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .metadata-value {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Status Toggle */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: var(--accent-blue);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(20px);
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 32px 16px;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+                margin-bottom: 32px;
+            }
+
+            nav {
+                width: 100%;
+                overflow-x: auto;
+                gap: 16px;
+                padding-bottom: 4px;
+            }
+
+            nav a {
+                white-space: nowrap;
+                font-size: 15px;
+            }
+
+            .attention-item {
+                flex-direction: column;
+                gap: 12px;
+                padding: 20px 0;
+            }
+
+            .attention-action {
+                margin-left: 0;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+                min-height: 48px;
+            }
+
+            .stat-card {
+                padding: 20px;
+            }
+
+            .stat-value {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="immersive-bg"></div>
+    <div class="grid-overlay"></div>
+
+    <!-- Supabase & Data Service & Auth -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="auth-service.js"></script>
+    <script src="auth-guard.js"></script>
+    <script src="data-service.js"></script>
+
+    <div class="content">
+        <div class="container">
+            <header>
+                <div class="logo">SpotFunnel</div>
+                <nav>
+                    <a href="dashboard.html" class="active">Home</a>
+                    <a href="action-queue.html">Action Queue</a>
+                    <a href="call-history.html">Call History</a>
+                    <a href="#" id="logoutBtn" style="color: var(--text-secondary); margin-left: 12px;">Logout</a>
+                </nav>
+            </header>
+
+            <h1>Dashboard</h1>
+
+            <div class="toggle-container">
+                <label class="switch">
+                    <input type="checkbox" checked id="statusToggle">
+                    <span class="slider"></span>
+                </label>
+                <span id="statusLabel">Agent active: Answering calls</span>
+            </div>
+
+            <!-- Needs Attention Section -->
+            <section class="section">
+                <h2 class="section-title">Needs attention</h2>
+                <div class="card" id="attentionContainer">
+                    <!-- Dynamic Attention Items -->
+                    <div class="empty-state">No items requiring immediate attention.</div>
+                </div>
+            </section>
+
+            <!-- Recent Calls Section -->
+            <section class="section">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2 class="section-title">Recent Calls</h2>
+                    <button class="btn btn-secondary" style="font-size: 12px;" onclick="toggleMockMode()">
+                        Stress Test (50 Records)
+                    </button>
+                </div>
+
+                <div id="bulkActions" class="bulk-actions">
+                    <span id="selectedCount" style="font-size: 14px; flex-grow: 1;">0 items selected</span>
+                    <button class="btn btn-secondary" style="background: rgba(239, 68, 68, 0.1); color: #ef4444;"
+                        onclick="handleBulkDelete()">
+                        Delete Selected
+                    </button>
+                    <button class="btn btn-secondary" onclick="clearSelection()">Cancel</button>
+                </div>
+
+                <div class="card" style="padding: 0; overflow: hidden;">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                        <thead>
+                            <tr
+                                style="text-align: left; background: rgba(255,255,255,0.02); border-bottom: 1px solid var(--border-color);">
+                                <th style="padding: 16px;"><input type="checkbox" id="selectAll"></th>
+                                <th style="padding: 16px; color: var(--text-secondary); font-weight: 500;">Customer</th>
+                                <th style="padding: 16px; color: var(--text-secondary); font-weight: 500;">Outcome</th>
+                                <th style="padding: 16px; color: var(--text-secondary); font-weight: 500;">Date</th>
+                                <th style="padding: 16px; color: var(--text-secondary); font-weight: 500;">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="callHistoryTable">
+                            <!-- Rows loaded via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Call Details Modal -->
+    <div id="callModal" class="modal-overlay">
+        <div class="modal">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <h2 id="modalTitle">Call Details</h2>
+
+            <div class="modal-section">
+                <div class="modal-label">Summary</div>
+                <div id="modalSummary" class="modal-content">No summary available.</div>
+            </div>
+
+            <div class="modal-section">
+                <div class="modal-label">Transcript</div>
+                <div id="modalTranscript" class="modal-content" style="white-space: pre-wrap; font-family: monospace;">
+                    No transcript available.
+                </div>
+            </div>
+
+            <div class="modal-section" style="display: flex; gap: 16px; margin-top: 32px;">
+                <button class="btn" onclick="closeModal()">Done</button>
+                <button class="btn btn-secondary" onclick="copyTranscript()">Copy Transcript</button>
+            </div>
+        </div>
+    </div>
+
+
+    </div>
+    </div>
+
+    <script>
+        let selectedCalls = new Set();
+        let currentCallData = [];
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    await logout();
+                });
+            }
+
+            // Status Toggle Logic
+            const statusToggle = document.getElementById('statusToggle');
+            const statusLabel = document.getElementById('statusLabel');
+            statusToggle.addEventListener('change', (e) => {
+                if (e.target.checked) {
+                    statusLabel.textContent = "Agent active: Answering calls";
+                    statusLabel.style.color = "var(--success-green)";
+                } else {
+                    statusLabel.textContent = "Agent paused: No calls being answered";
+                    statusLabel.style.color = "var(--text-secondary)";
+                }
+            });
+
+            // Init Dashboard
+            await refreshUI();
+
+            // Select All Logic
+            document.getElementById('selectAll').addEventListener('change', (e) => {
+                const checkboxes = document.querySelectorAll('.call-checkbox');
+                checkboxes.forEach(cb => {
+                    cb.checked = e.target.checked;
+                    if (e.target.checked) selectedCalls.add(cb.value);
+                    else selectedCalls.delete(cb.value);
+                });
+                updateBulkActionsUI();
+            });
+        });
+
+        async function refreshUI() {
+            // Load Stats
+            const stats = await fetchDashboardStats();
+            if (stats) {
+                // We'll add IDs to stats grid in a second pass if needed, 
+                // but for now let's just use the static values as they are mocked anyway.
+            }
+
+            // Load History
+            const calls = await fetchCallHistory();
+            currentCallData = calls;
+            renderCallHistory(calls);
+            renderAttentionItems(calls);
+        }
+
+        function renderCallHistory(calls) {
+            const tbody = document.getElementById('callHistoryTable');
+            if (!calls.length) {
+                tbody.innerHTML = '<tr><td colspan="5" class="empty-state">No call history found.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = calls.map(call => {
+                // Determine tag colors based on label content
+                const renderLabels = (labels) => {
+                    if (!labels || !labels.length) return '';
+                    return `<div class="tag-row">${labels.map(l => {
+                        let color = '';
+                        if (l.includes('Book') || l.includes('Qual')) color = 'tag-blue';
+                        if (l.includes('Quote') || l.includes('Follow')) color = 'tag-orange';
+                        if (l.includes('Resolv') || l.includes('Done')) color = 'tag-green';
+                        return `<span class="tag ${color}">${l}</span>`;
+                    }).join('')}</div>`;
+                };
+
+                return `
+                <tr class="history-row" onclick="handleRowClick(event, '${call.id}')" style="border-bottom: 1px solid rgba(255,255,255,0.02);">
+                    <td style="padding: 16px;">
+                        <input type="checkbox" class="call-checkbox" value="${call.id}" 
+                            ${selectedCalls.has(call.id) ? 'checked' : ''} 
+                            onclick="handleCheckboxClick(event, this)">
+                    </td>
+                    <td style="padding: 16px;">
+                        <div style="font-weight: 500;">${call.customer_name || 'Anonymous'}</div>
+                        <div style="font-size: 11px; opacity: 0.5;">${call.customer_phone || ''}</div>
+                    </td>
+                    <td style="padding: 16px;">
+                        <div style="margin-bottom: 6px;">
+                            ${call.booking_completed ? '<span style="color: var(--success-green); font-weight: 600;">Booked</span>' : (call.summary?.substring(0, 40) + '...' || 'Inquiry')}
+                        </div>
+                        ${renderLabels(call.labels)}
+                    </td>
+                    <td style="padding: 16px; color: var(--text-secondary); opacity: 0.8;">
+                        ${formatTime(call.created_at)}
+                    </td>
+                    <td style="padding: 16px;">
+                        <span style="padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; 
+                            background: ${call.status === 'new' ? 'rgba(0, 209, 255, 0.1)' : 'rgba(255,255,255,0.05)'};
+                            color: ${call.status === 'new' ? 'var(--accent-blue)' : 'var(--text-secondary)'};">
+                            ${call.status?.toUpperCase() || 'HANDLED'}
+                        </span>
+                    </td>
+                </tr>
+            `;
+            }).join('');
+        }
+
+        function renderAttentionItems(calls) {
+            const container = document.getElementById('attentionContainer');
+            const newCalls = calls.filter(c => c.status === 'new');
+
+            if (!newCalls.length) {
+                container.innerHTML = '<div class="empty-state">No items requiring immediate attention.</div>';
+                return;
+            }
+
+            container.innerHTML = newCalls.slice(0, 3).map(call => `
+                <div class="attention-item" style="padding: 16px 24px;">
+                    <div class="attention-content">
+                        <div class="attention-title">${call.customer_name} — Follow-up</div>
+                        <div class="attention-description">${call.summary || 'Awaiting follow-up response.'}</div>
+                    </div>
+                    <div class="attention-action">
+                        <a href="tel:${call.customer_phone}" class="btn">Call back</a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function handleRowClick(event, id) {
+            // Prevent link and checkbox clicks from opening modal
+            if (event.target.tagName === 'INPUT' || event.target.tagName === 'A') return;
+            openModal(id);
+        }
+
+        function handleCheckboxClick(event, cb) {
+            event.stopPropagation();
+            if (cb.checked) selectedCalls.add(cb.value);
+            else selectedCalls.delete(cb.value);
+            updateBulkActionsUI();
+        }
+
+        function updateBulkActionsUI() {
+            const bulk = document.getElementById('bulkActions');
+            const count = document.getElementById('selectedCount');
+            if (selectedCalls.size > 0) {
+                bulk.style.display = 'flex';
+                count.textContent = `${selectedCalls.size} item${selectedCalls.size > 1 ? 's' : ''} selected`;
+            } else {
+                bulk.style.display = 'none';
+            }
+        }
+
+        async function handleBulkDelete() {
+            if (!confirm(`Are you sure you want to delete ${selectedCalls.size} calls?`)) return;
+
+            if (window.MOCK_DATA_MODE) {
+                alert("Cannot delete in Stress Test mode. Toggle off to delete real data.");
+                return;
+            }
+
+            const { error } = await deleteCalls(Array.from(selectedCalls));
+            if (error) alert("Error deleting: " + error.message);
+            else {
+                selectedCalls.clear();
+                updateBulkActionsUI();
+                await refreshUI();
+            }
+        }
+
+        function clearSelection() {
+            selectedCalls.clear();
+            document.querySelectorAll('.call-checkbox').forEach(cb => cb.checked = false);
+            document.getElementById('selectAll').checked = false;
+            updateBulkActionsUI();
+        }
+
+        async function openModal(id) {
+            const call = currentCallData.find(c => c.id === id);
+            if (!call) return;
+
+            document.getElementById('modalTitle').textContent = `Call with ${call.customer_name || 'Anonymous'}`;
+
+            // Render Metadata
+            let durationDisplay = 'Unknown';
+            if (call.duration) {
+                durationDisplay = call.duration;
+            } else if (call.duration_seconds) {
+                durationDisplay = `${Math.floor(call.duration_seconds / 60)}m ${call.duration_seconds % 60}s`;
+            }
+
+            const cost = call.cost ? `$${call.cost}` : '$0.00';
+            const date = formatTime(call.created_at);
+
+            const metadataHTML = `
+                <div class="metadata-grid">
+                    <div class="metadata-item">
+                        <div class="metadata-label">Duration</div>
+                        <div class="metadata-value">${durationDisplay}</div>
+                    </div>
+                    <div class="metadata-item">
+                        <div class="metadata-label">Cost</div>
+                        <div class="metadata-value">${cost}</div>
+                    </div>
+                    <div class="metadata-item">
+                        <div class="metadata-label">Date</div>
+                        <div class="metadata-value">${date.split(',')[0]}</div>
+                    </div>
+                </div>
+            `;
+
+            // Recording Player
+            const recordingHTML = call.recording_url ? `
+                <div class="modal-section">
+                    <div class="modal-label">Call Recording</div>
+                    <div class="audio-player">
+                        <audio controls src="${call.recording_url}"></audio>
+                    </div>
+                </div>
+            ` : '';
+
+            // Labels in Modal
+            const labelsHTML = call.labels?.length ? `
+                <div style="display: flex; gap: 8px; margin-bottom: 24px;">
+                    ${call.labels.map(l => `<span class="tag tag-blue" style="font-size: 12px;">${l}</span>`).join('')}
+                </div>
+            ` : '';
+
+            document.getElementById('modalSummary').innerHTML = `
+                ${labelsHTML}
+                ${metadataHTML}
+                <div style="margin-bottom: 8px; font-weight: 600; font-size: 12px; color: var(--accent-blue);">AI SUMMARY</div>
+                ${call.summary || 'No summary available.'}
+                ${recordingHTML}
+            `;
+
+            document.getElementById('modalTranscript').textContent = call.transcript || 'No transcript recorded.';
+            document.getElementById('callModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('callModal').style.display = 'none';
+        }
+
+        function copyTranscript() {
+            const text = document.getElementById('modalTranscript').textContent;
+            navigator.clipboard.writeText(text);
+            alert("Transcript copied to clipboard!");
+        }
+
+        function toggleMockMode() {
+            window.MOCK_DATA_MODE = !window.MOCK_DATA_MODE;
+            const btn = event.target;
+            btn.textContent = window.MOCK_DATA_MODE ? "Normal Mode (Live Data)" : "Stress Test (50 Records)";
+            refreshUI();
+        }
+    </script>
+</body>
+
+</html>

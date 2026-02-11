@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Action Queue | SpotFunnel</title>
+
+    <!-- Fonts: Roobert + Inter + Playfair Display -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+
+    <style>
+        @font-face {
+            font-family: 'Roobert';
+            src: url('fonts/RoobertTRIALVF-BF67243fd545701.ttf') format('truetype');
+            font-weight: 100 900;
+            font-style: normal;
+        }
+
+        :root {
+            --bg-base: #05070a;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.6);
+            --accent-blue: #00D1FF;
+            --beam-glow: rgba(0, 209, 255, 0.15);
+            --grid-color: rgba(0, 209, 255, 0.05);
+            --border-color: rgba(0, 209, 255, 0.1);
+            --font-sans: 'Roobert', 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+            --ease-custom: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-size: 17px;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            letter-spacing: -0.01em;
+        }
+
+        /* Immersive Background */
+        .immersive-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            pointer-events: none;
+            overflow: hidden;
+            background: radial-gradient(circle at 50% 30%, #0c1a2e 0%, #05070a 60%);
+        }
+
+        .immersive-bg::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1200px;
+            height: 140%;
+            background:
+                radial-gradient(circle at 50% 0%, rgba(0, 209, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 50% 100%, rgba(0, 209, 255, 0.03) 0%, transparent 60%);
+            filter: blur(100px);
+            opacity: 1;
+            pointer-events: none;
+        }
+
+        /* Grid Overlay */
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 2;
+            pointer-events: none;
+            background-image:
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 60px 60px;
+            opacity: 0.4;
+        }
+
+        /* Content Layer */
+        .content {
+            position: relative;
+            z-index: 10;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 48px 24px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 48px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        nav {
+            display: flex;
+            gap: 24px;
+        }
+
+        nav a {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s var(--ease-custom);
+        }
+
+        nav a:hover {
+            color: var(--text-primary);
+        }
+
+        nav a.active {
+            color: var(--accent-blue);
+            font-weight: 500;
+        }
+
+        h1 {
+            font-size: clamp(28px, 4vw, 40px);
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .action-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .action-item:last-child {
+            border-bottom: none;
+        }
+
+        .action-content {
+            flex: 1;
+        }
+
+        .action-time {
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 4px;
+        }
+
+        .action-caller {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .action-reason {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            margin-left: 16px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            background: var(--accent-blue);
+            color: var(--bg-base);
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s var(--ease-custom);
+            white-space: nowrap;
+            font-family: var(--font-sans);
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 24px rgba(0, 209, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 64px 24px;
+            color: var(--text-secondary);
+            font-size: 16px;
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: 32px 16px;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+                margin-bottom: 32px;
+            }
+
+            nav {
+                width: 100%;
+                overflow-x: auto;
+                gap: 16px;
+                padding-bottom: 4px;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            nav::-webkit-scrollbar {
+                display: none;
+            }
+
+            nav a {
+                white-space: nowrap;
+                font-size: 15px;
+            }
+
+            .action-item {
+                flex-direction: column;
+                gap: 16px;
+                padding: 20px 0;
+            }
+
+            .action-buttons {
+                margin-left: 0;
+                width: 100%;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+                min-height: 48px;
+                padding: 12px 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="immersive-bg"></div>
+    <div class="grid-overlay"></div>
+
+    <div class="content">
+        <div class="container">
+            <header>
+                <div class="logo">SpotFunnel</div>
+                <nav>
+                    <a href="dashboard.html">Home</a>
+                    <a href="action-queue.html" class="active">Action Queue</a>
+                    <a href="call-history.html">Call History</a>
+                    <a href="#" id="logoutBtn" style="color: var(--text-secondary); margin-left: 12px;">Logout</a>
+                </nav>
+            </header>
+
+            <h1>Action Queue</h1>
+            <p class="subtitle">Calls that need your attention.</p>
+
+            <div class="card" id="actionList">
+                <div class="action-item">
+                    <div class="action-content">
+                        <div class="action-time">Today, 2:45 PM</div>
+                        <div class="action-caller">Michael Chen</div>
+                        <div class="action-reason">Requested quote for commercial solar installation</div>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="tel:0412345678" class="btn">Call back</a>
+                        <button class="btn btn-secondary" onclick="markDone(this)">Mark done</button>
+                    </div>
+                </div>
+
+                <div class="action-item">
+                    <div class="action-content">
+                        <div class="action-time">Today, 11:20 AM</div>
+                        <div class="action-caller">Sarah Williams</div>
+                        <div class="action-reason">Booking needs confirmation for Tuesday 2pm</div>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="tel:0498765432" class="btn">Call back</a>
+                        <button class="btn btn-secondary" onclick="markDone(this)">Mark done</button>
+                    </div>
+                </div>
+
+                <div class="action-item">
+                    <div class="action-content">
+                        <div class="action-time">Yesterday, 4:15 PM</div>
+                        <div class="action-caller">James Thompson</div>
+                        <div class="action-reason">Asked about battery upgrade options</div>
+                    </div>
+                    <div class="action-buttons">
+                        <a href="tel:0423456789" class="btn">Call back</a>
+                        <button class="btn btn-secondary" onclick="markDone(this)">Mark done</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase & Data Service & Auth -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="auth-service.js"></script>
+    <script src="auth-guard.js"></script>
+    <script src="data-service.js"></script>
+
+    <script>
+        const actionList = document.getElementById('actionList');
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Logout Handler
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    await logout();
+                });
+            }
+
+            await loadActionItems();
+        });
+
+        async function loadActionItems() {
+            actionList.innerHTML = '<div style="padding:48px; text-align:center; color: var(--text-secondary);">Checking queue...</div>';
+
+            // Re-use fetchDashboardStats logic or create new one.
+            // For now, let's fetch pending calls manually here or extend data-service.
+            // We want calls where status='new' AND booking_completed=false (or similar rule)
+
+            if (!supabase) {
+                renderEmpty();
+                return;
+            }
+
+            const { data, error } = await supabase
+                .from('calls')
+                .select('*')
+                .eq('status', 'new')
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                console.error('Error loading actions:', error);
+                actionList.innerHTML = '<div class="empty-state">Error loading queue.</div>';
+                return;
+            }
+
+            if (!data || data.length === 0) {
+                renderEmpty();
+                return;
+            }
+
+            renderActions(data);
+        }
+
+        function renderActions(items) {
+            actionList.innerHTML = '';
+
+            items.forEach(item => {
+                const html = `
+                <div class="action-item" id="item-${item.id}">
+                    <div class="action-content">
+                        <div class="action-time">${formatTime(item.created_at)}</div>
+                        <div class="action-caller">${item.customer_name || item.customer_phone || 'Unknown'}</div>
+                        <div class="action-reason">${item.summary || item.ended_reason || 'Needs Review'}</div>
+                    </div>
+                    <div class="action-buttons">
+                        ${item.customer_phone ? `<a href="tel:${item.customer_phone}" class="btn">Call back</a>` : ''}
+                        <button class="btn btn-secondary" onclick="markDone('${item.id}')">Mark done</button>
+                    </div>
+                </div>
+                `;
+                actionList.insertAdjacentHTML('beforeend', html);
+            });
+        }
+
+        function renderEmpty() {
+            actionList.innerHTML = '<div class="empty-state">Nothing needs attention right now.</div>';
+        }
+
+        async function markDone(id) {
+            // Optimistic UI update
+            const itemEl = document.getElementById(`item-${id}`);
+            if (itemEl) {
+                itemEl.style.opacity = '0.5';
+            }
+
+            // Update Supabase
+            if (supabase) {
+                const { error } = await supabase
+                    .from('calls')
+                    .update({ status: 'resolved' })
+                    .eq('id', id);
+
+                if (error) {
+                    console.error('Failed to update status:', error);
+                    alert('Error updating status. Please try again.');
+                    if (itemEl) itemEl.style.opacity = '1';
+                    return;
+                }
+            }
+
+            // Remove from UI
+            if (itemEl) {
+                itemEl.style.transition = 'opacity 0.3s, height 0.3s margin 0.3s';
+                itemEl.style.opacity = '0';
+                setTimeout(() => {
+                    itemEl.remove();
+                    if (actionList.children.length === 0) renderEmpty();
+                }, 300);
+            }
+        }
+    </script>
+</body>
+
+</html>

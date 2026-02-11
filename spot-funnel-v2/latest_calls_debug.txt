@@ -1,0 +1,60 @@
+ID: 0ac25c01-31e6-4cb9-82d3-ed39d2205ae0
+Squad: 44ab3b52-a2e5-427b-872e-724b33e73a28
+Created: 2026-01-25T09:57:43.319401+00:00
+Name: Unknown
+Phone: null
+---
+ID: 24ec4b22-cb6f-4ef0-92bd-b334c1737cbe
+Squad: 44ab3b52-a2e5-427b-872e-724b33e73a28
+Created: 2026-01-25T09:57:31.540071+00:00
+Name: Michael Nguyen
+Phone: null
+---
+ID: 49dbc701-9f47-462f-8686-363b31b8175d
+Squad: 44ab3b52-a2e5-427b-872e-724b33e73a28
+Created: 2026-01-25T09:57:06.74413+00:00
+Name: Karen O'Brien
+Phone: null
+---
+ID: 099483b3-3a0d-42bc-88c5-9a4ca68504fa
+Squad: 44ab3b52-a2e5-427b-872e-724b33e73a28
+Created: 2026-01-25T09:56:41.913973+00:00
+Name: Robert Singh
+Phone: null
+---
+ID: b287a4bd-7492-4f72-aa53-6e1dd2c4d342
+Squad: 44ab3b52-a2e5-427b-872e-724b33e73a28
+Created: 2026-01-25T09:56:15.526023+00:00
+Name: Emma Liu
+Phone: null
+---
+ID: b03feec6-798c-430d-bbec-748fb9478847
+Squad: 44ab3b52-a2e5-427b-872e-724b33e73a28
+Created: 2026-01-25T09:55:52.771985+00:00
+Name: Tony Russo
+Phone: null
+---
+ID: 68f81ebf-108d-4e43-b418-512f2d5c676f
+Squad: 44ab3b52-a2e5-427b-872e-724b33e73a28
+Created: 2026-01-25T09:55:29.931751+00:00
+Name: James Walker
+Phone: null
+---
+ID: 8452cc31-7203-4a7d-a3e2-0dee1b1b81a0
+Squad: 44ab3b52-a2e5-427b-872e-724b33e73a28
+Created: 2026-01-25T09:55:12.159956+00:00
+Name: Margaret Thompson
+Phone: null
+---
+ID: 03ae862d-63eb-4631-be22-6e1b38e9764f
+Squad: 44ab3b52-a2e5-427b-872e-724b33e73a28
+Created: 2026-01-25T09:54:49.061181+00:00
+Name: David Chen
+Phone: null
+---
+ID: 053b226d-726f-438a-b633-5b31edc7c130
+Squad: 44ab3b52-a2e5-427b-872e-724b33e73a28
+Created: 2026-01-25T09:54:23.849901+00:00
+Name: Sarah Mitchell
+Phone: null
+---

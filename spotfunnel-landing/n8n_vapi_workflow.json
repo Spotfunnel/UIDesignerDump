@@ -1,0 +1,89 @@
+{
+    "name": "SpotFunnel Vapi Handler",
+    "nodes": [
+        {
+            "parameters": {
+                "httpMethod": "POST",
+                "path": "call-ended",
+                "options": {}
+            },
+            "id": "webhook-trigger",
+            "name": "Vapi Webhook",
+            "type": "n8n-nodes-base.webhook",
+            "typeVersion": 1.1,
+            "position": [
+                250,
+                300
+            ],
+            "webhookId": "call-ended"
+        },
+        {
+            "parameters": {
+                "table": {
+                    "__rl": true,
+                    "value": "calls",
+                    "mode": "id"
+                },
+                "columns": {
+                    "mappingMode": "defineBelow",
+                    "value": {
+                        "call_id": "={{ $json.body.message.call.id }}",
+                        "duration_seconds": "={{ $json.body.message.call.duration }}",
+                        "customer_phone": "={{ $json.body.message.call.customer.number }}",
+                        "ended_reason": "={{ $json.body.message.endedReason }}",
+                        "summary": "={{ $json.body.message.analysis.summary }}",
+                        "transcript": "={{ $json.body.message.artifact.transcript }}",
+                        "customer_name": "={{ $json.body.message.analysis.structuredData.customer_name }}",
+                        "customer_address": "={{ $json.body.message.analysis.structuredData.customer_address }}",
+                        "customer_email": "={{ $json.body.message.analysis.structuredData.customer_email }}",
+                        "postcode": "={{ $json.body.message.analysis.structuredData.postcode }}",
+                        "booking_completed": "={{ $json.body.message.analysis.structuredData.booking_completed }}",
+                        "appointment_date": "={{ $json.body.message.analysis.structuredData.appointment_date }}",
+                        "appointment_time": "={{ $json.body.message.analysis.structuredData.appointment_time }}"
+                    },
+                    "matchingColumns": [],
+                    "schema": [
+                        {
+                            "id": "uuid",
+                            "displayName": "id",
+                            "required": false,
+                            "defaultMatch": true,
+                            "display": true,
+                            "type": "string",
+                            "readOnly": true,
+                            "removed": false
+                        }
+                    ]
+                }
+            },
+            "id": "supabase-insert",
+            "name": "Insert Call",
+            "type": "n8n-nodes-base.supabase",
+            "typeVersion": 1,
+            "position": [
+                470,
+                300
+            ],
+            "credentials": {
+                "supabaseApi": {
+                    "id": "YOUR_CREDENTIAL_ID",
+                    "name": "Supabase account"
+                }
+            }
+        }
+    ],
+    "pinData": {},
+    "connections": {
+        "Vapi Webhook": {
+            "main": [
+                [
+                    {
+                        "node": "Insert Call",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    }
+}

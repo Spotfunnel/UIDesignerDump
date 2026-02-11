@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>SpotFunnel Email Templates</title>
+</head>
+
+<body>
+
+    <!-- 
+    ============================================================================
+    TEMPLATE 1: INVITE USER
+    Copy from below this line
+    ============================================================================
+-->
+    <!DOCTYPE html>
+    <html>
+
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <style>
+            body {
+                background-color: #f9fafb;
+                color: #111827;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                -webkit-font-smoothing: antialiased;
+            }
+
+            .container {
+                max-width: 480px;
+                margin: 0 auto;
+                padding: 40px 20px;
+            }
+
+            .card {
+                background-color: #ffffff;
+                border: 1px solid #e5e7eb;
+                border-radius: 12px;
+                padding: 40px 32px;
+                text-align: center;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            }
+
+            .logo {
+                margin-bottom: 24px;
+                font-size: 24px;
+                font-weight: 700;
+                color: #111827;
+                letter-spacing: -0.5px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .logo-dot {
+                width: 8px;
+                height: 8px;
+                background-color: #14b8a6;
+                /* Teal-500 */
+                border-radius: 50%;
+                display: inline-block;
+                margin-left: 2px;
+            }
+
+            h1 {
+                font-size: 22px;
+                font-weight: 700;
+                margin: 0 0 16px;
+                color: #111827;
+                letter-spacing: -0.25px;
+            }
+
+            p {
+                font-size: 16px;
+                line-height: 26px;
+                color: #4b5563;
+                margin: 0 0 32px;
+            }
+
+            .btn {
+                display: inline-block;
+                background-color: #14b8a6;
+                /* Teal-500 Primary */
+                color: #ffffff;
+                font-size: 15px;
+                font-weight: 600;
+                text-decoration: none;
+                padding: 12px 32px;
+                border-radius: 8px;
+                transition: all 0.2s;
+                box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            }
+
+            .btn:hover {
+                background-color: #0f766e;
+                /* Teal-700 */
+                transform: translateY(-1px);
+                box-shadow: 0 4px 6px -1px rgba(20, 184, 166, 0.2);
+            }
+
+            .footer {
+                margin-top: 32px;
+                font-size: 13px;
+                color: #9ca3af;
+                text-align: center;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="card">
+                <div class="logo">SpotFunnel<span class="logo-dot"></span></div>
+                <h1>You've been invited</h1>
+                <p>You have been invited to join the SpotFunnel workspace. Click the button below to accept your
+                    invitation and set up your account.</p>
+                <a href="{{ .ConfirmationURL }}" class="btn">Join Workspace</a>
+            </div>
+            <div class="footer">
+                <p style="margin: 0;">© 2026 SpotFunnel AI. All rights reserved.</p>
+            </div>
+        </div>
+    </body>
+
+    </html>
+    <!-- 
+    ============================================================================
+    END TEMPLATE 1
+    ============================================================================
+-->
+
+
+    <!-- 
+    ============================================================================
+    TEMPLATE 2: RESET PASSWORD / FORGOT PASSWORD
+    Copy from below this line
+    ============================================================================
+-->
+    <!DOCTYPE html>
+    <html>
+
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <style>
+            body {
+                background-color: #f9fafb;
+                color: #111827;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                -webkit-font-smoothing: antialiased;
+            }
+
+            .container {
+                max-width: 480px;
+                margin: 0 auto;
+                padding: 40px 20px;
+            }
+
+            .card {
+                background-color: #ffffff;
+                border: 1px solid #e5e7eb;
+                border-radius: 12px;
+                padding: 40px 32px;
+                text-align: center;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            }
+
+            .logo {
+                margin-bottom: 24px;
+                font-size: 24px;
+                font-weight: 700;
+                color: #111827;
+                letter-spacing: -0.5px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .logo-dot {
+                width: 8px;
+                height: 8px;
+                background-color: #14b8a6;
+                /* Teal-500 */
+                border-radius: 50%;
+                display: inline-block;
+                margin-left: 2px;
+            }
+
+            h1 {
+                font-size: 22px;
+                font-weight: 700;
+                margin: 0 0 16px;
+                color: #111827;
+                letter-spacing: -0.25px;
+            }
+
+            p {
+                font-size: 16px;
+                line-height: 26px;
+                color: #4b5563;
+                margin: 0 0 32px;
+            }
+
+            .btn {
+                display: inline-block;
+                background-color: #14b8a6;
+                /* Teal-500 */
+                color: #ffffff;
+                font-size: 15px;
+                font-weight: 600;
+                text-decoration: none;
+                padding: 12px 32px;
+                border-radius: 8px;
+                transition: all 0.2s;
+                box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            }
+
+            .btn:hover {
+                background-color: #0f766e;
+                /* Teal-700 */
+                transform: translateY(-1px);
+                box-shadow: 0 4px 6px -1px rgba(20, 184, 166, 0.2);
+            }
+
+            .footer {
+                margin-top: 32px;
+                font-size: 13px;
+                color: #9ca3af;
+                text-align: center;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="card">
+                <div class="logo">SpotFunnel<span class="logo-dot"></span></div>
+                <h1>Reset your password</h1>
+                <p>We received a request to reset your password. Click the button below to choose a new password.</p>
+                <a href="{{ .ConfirmationURL }}" class="btn">Reset Password</a>
+            </div>
+            <div class="footer">
+                <p style="margin: 0;">If you didn't request this, you can safely ignore this email.</p>
+            </div>
+        </div>
+    </body>
+
+    </html>
+    <!-- 
+    ============================================================================
+    END TEMPLATE 2
+    ============================================================================
+-->
+
+
+    <!-- 
+    ============================================================================
+    TEMPLATE 3: CONFIRM SIGNUP (If creating account directly)
+    Copy from below this line
+    ============================================================================
+-->
+    <!DOCTYPE html>
+    <html>
+
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <style>
+            body {
+                background-color: #f9fafb;
+                color: #111827;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                -webkit-font-smoothing: antialiased;
+            }
+
+            .container {
+                max-width: 480px;
+                margin: 0 auto;
+                padding: 40px 20px;
+            }
+
+            .card {
+                background-color: #ffffff;
+                border: 1px solid #e5e7eb;
+                border-radius: 12px;
+                padding: 40px 32px;
+                text-align: center;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            }
+
+            .logo {
+                margin-bottom: 24px;
+                font-size: 24px;
+                font-weight: 700;
+                color: #111827;
+                letter-spacing: -0.5px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .logo-dot {
+                width: 8px;
+                height: 8px;
+                background-color: #14b8a6;
+                /* Teal-500 */
+                border-radius: 50%;
+                display: inline-block;
+                margin-left: 2px;
+            }
+
+            h1 {
+                font-size: 22px;
+                font-weight: 700;
+                margin: 0 0 16px;
+                color: #111827;
+                letter-spacing: -0.25px;
+            }
+
+            p {
+                font-size: 16px;
+                line-height: 26px;
+                color: #4b5563;
+                margin: 0 0 32px;
+            }
+
+            .btn {
+                display: inline-block;
+                background-color: #14b8a6;
+                /* Teal-500 */
+                color: #ffffff;
+                font-size: 15px;
+                font-weight: 600;
+                text-decoration: none;
+                padding: 12px 32px;
+                border-radius: 8px;
+                transition: all 0.2s;
+                box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            }
+
+            .btn:hover {
+                background-color: #0f766e;
+                /* Teal-700 */
+                transform: translateY(-1px);
+                box-shadow: 0 4px 6px -1px rgba(20, 184, 166, 0.2);
+            }
+
+            .footer {
+                margin-top: 32px;
+                font-size: 13px;
+                color: #9ca3af;
+                text-align: center;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="card">
+                <div class="logo">SpotFunnel<span class="logo-dot"></span></div>
+                <h1>Verify your email</h1>
+                <p>Please confirm your email address to complete your registration and access the dashboard.</p>
+                <a href="{{ .ConfirmationURL }}" class="btn">Confirm Email</a>
+            </div>
+            <div class="footer">
+                <p style="margin: 0;">© 2026 SpotFunnel AI. All rights reserved.</p>
+            </div>
+        </div>
+    </body>
+
+    </html>
+    <!-- 
+    ============================================================================
+    END TEMPLATE 3
+    ============================================================================
+-->
+
+
+    <!-- 
+    ============================================================================
+    TEMPLATE 4: MAGIC LINK
+    Copy from below this line
+    ============================================================================
+-->
+    <!DOCTYPE html>
+    <html>
+
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <style>
+            body {
+                background-color: #f9fafb;
+                color: #111827;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                -webkit-font-smoothing: antialiased;
+            }
+
+            .container {
+                max-width: 480px;
+                margin: 0 auto;
+                padding: 40px 20px;
+            }
+
+            .card {
+                background-color: #ffffff;
+                border: 1px solid #e5e7eb;
+                border-radius: 12px;
+                padding: 40px 32px;
+                text-align: center;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            }
+
+            .logo {
+                margin-bottom: 24px;
+                font-size: 24px;
+                font-weight: 700;
+                color: #111827;
+                letter-spacing: -0.5px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .logo-dot {
+                width: 8px;
+                height: 8px;
+                background-color: #14b8a6;
+                /* Teal-500 */
+                border-radius: 50%;
+                display: inline-block;
+                margin-left: 2px;
+            }
+
+            h1 {
+                font-size: 22px;
+                font-weight: 700;
+                margin: 0 0 16px;
+                color: #111827;
+                letter-spacing: -0.25px;
+            }
+
+            p {
+                font-size: 16px;
+                line-height: 26px;
+                color: #4b5563;
+                margin: 0 0 32px;
+            }
+
+            .btn {
+                display: inline-block;
+                background-color: #14b8a6;
+                /* Teal-500 */
+                color: #ffffff;
+                font-size: 15px;
+                font-weight: 600;
+                text-decoration: none;
+                padding: 12px 32px;
+                border-radius: 8px;
+                transition: all 0.2s;
+                box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            }
+
+            .btn:hover {
+                background-color: #0f766e;
+                /* Teal-700 */
+                transform: translateY(-1px);
+                box-shadow: 0 4px 6px -1px rgba(20, 184, 166, 0.2);
+            }
+
+            .footer {
+                margin-top: 32px;
+                font-size: 13px;
+                color: #9ca3af;
+                text-align: center;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="card">
+                <div class="logo">SpotFunnel<span class="logo-dot"></span></div>
+                <h1>Sign in to SpotFunnel</h1>
+                <p>Click the button below to sign in to your account without a password.</p>
+                <a href="{{ .ConfirmationURL }}" class="btn">Sign In</a>
+            </div>
+            <div class="footer">
+                <p style="margin: 0;">© 2026 SpotFunnel AI. All rights reserved.</p>
+            </div>
+        </div>
+    </body>
+
+    </html>
+    <!-- 
+    ============================================================================
+    END TEMPLATE 4
+    ============================================================================
+-->
+
+
+    <!-- 
+    ============================================================================
+    TEMPLATE 5: CHANGE EMAIL ADDRESS
+    Copy from below this line
+    ============================================================================
+-->
+    <!DOCTYPE html>
+    <html>
+
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <style>
+            body {
+                background-color: #f9fafb;
+                color: #111827;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                -webkit-font-smoothing: antialiased;
+            }
+
+            .container {
+                max-width: 480px;
+                margin: 0 auto;
+                padding: 40px 20px;
+            }
+
+            .card {
+                background-color: #ffffff;
+                border: 1px solid #e5e7eb;
+                border-radius: 12px;
+                padding: 40px 32px;
+                text-align: center;
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            }
+
+            .logo {
+                margin-bottom: 24px;
+                font-size: 24px;
+                font-weight: 700;
+                color: #111827;
+                letter-spacing: -0.5px;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .logo-dot {
+                width: 8px;
+                height: 8px;
+                background-color: #14b8a6;
+                /* Teal-500 */
+                border-radius: 50%;
+                display: inline-block;
+                margin-left: 2px;
+            }
+
+            h1 {
+                font-size: 22px;
+                font-weight: 700;
+                margin: 0 0 16px;
+                color: #111827;
+                letter-spacing: -0.25px;
+            }
+
+            p {
+                font-size: 16px;
+                line-height: 26px;
+                color: #4b5563;
+                margin: 0 0 32px;
+            }
+
+            .btn {
+                display: inline-block;
+                background-color: #14b8a6;
+                /* Teal-500 */
+                color: #ffffff;
+                font-size: 15px;
+                font-weight: 600;
+                text-decoration: none;
+                padding: 12px 32px;
+                border-radius: 8px;
+                transition: all 0.2s;
+                box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            }
+
+            .btn:hover {
+                background-color: #0f766e;
+                /* Teal-700 */
+                transform: translateY(-1px);
+                box-shadow: 0 4px 6px -1px rgba(20, 184, 166, 0.2);
+            }
+
+            .footer {
+                margin-top: 32px;
+                font-size: 13px;
+                color: #9ca3af;
+                text-align: center;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="card">
+                <div class="logo">SpotFunnel<span class="logo-dot"></span></div>
+                <h1>Confirm email change</h1>
+                <p>You are receiving this email because a change of email address was requested for your account. Click
+                    the button below to confirm the change.</p>
+                <a href="{{ .ConfirmationURL }}" class="btn">Confirm Change</a>
+            </div>
+            <div class="footer">
+                <p style="margin: 0;">© 2026 SpotFunnel AI. All rights reserved.</p>
+            </div>
+        </div>
+    </body>
+
+    </html>
+    <!-- 
+    ============================================================================
+    END TEMPLATE 5
+    ============================================================================
+-->
+
+</body>
+
+</html>

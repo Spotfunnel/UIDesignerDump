@@ -1,0 +1,1 @@
+["id","call_id","created_at","duration_seconds","assistant_id","squad_id","customer_phone","caller_name","customer_address","customer_email","postcode","booking_completed","appointment_date","appointment_time","ended_reason","summary","transcript","serviced_area","recovery_sms_sent","status","booking_status","intent","resolution_status","verified","date","called at","duration"]

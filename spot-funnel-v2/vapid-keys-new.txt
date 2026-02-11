@@ -1,0 +1,11 @@
+﻿
+=======================================
+
+Public Key:
+BLDtD17H2TkpZi5zR-FED6zAi4qO636KfWU1T7ABYWrFL7UH2q2oXqIFVwOHSaWo-FsgHo934OfVrw3NKrLctLA
+
+Private Key:
+BRuOrZi-pWaHGXIjs3k1Y62J7MWLSRiiJXoLeoRMrkk
+
+=======================================
+
